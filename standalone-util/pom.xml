@@ -18,7 +18,61 @@
         <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
         <file.encoding>UTF-8</file.encoding>
         <maven.compile.encoding>UTF-8</maven.compile.encoding>
+        <xlint.compiler.arg>-Xlint:none</xlint.compiler.arg>
+        <spotbugs.disabled>true</spotbugs.disabled>
     </properties>
-    <dependencies>
-    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>de.thetaphi</groupId>
+                <artifactId>forbiddenapis</artifactId>
+                <executions>
+                    <execution>
+                        <id>default</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <phase>skip</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default-check</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <phase>skip</phase>
+                    </execution>
+                    <execution>
+                        <id>default-cpd-check</id>
+                        <goals>
+                            <goal>cpd-check</goal>
+                        </goals>
+                        <phase>skip</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <configuration>
+                    <excludeFilterFile>${spotbugs.exclude.file}</excludeFilterFile>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>spotbugs-during-install</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <phase>skip</phase>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
