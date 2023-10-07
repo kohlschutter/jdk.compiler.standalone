@@ -1,0 +1,3 @@
+[submodule "jdk.compiler/jdk11"]
+	path = jdk.compiler/jdk11
+	url = https://github.com/kohlschutter/jdk.compiler.git
