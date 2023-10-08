@@ -25,6 +25,11 @@
             <artifactId>standalone-jdk11</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.kohlschutter.jdk</groupId>
+            <artifactId>standalone-util</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>com.kohlschutter</groupId>
