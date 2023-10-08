@@ -6,6 +6,7 @@ import java.net.URI;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystemNotFoundException;
 import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.util.Collections;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -14,8 +15,8 @@ import java.util.concurrent.ExecutionException;
  * Provides the path for "java.home", as far as the compiler is concerned.
  */
 public class JavaHomeLocator {
-  private static final File COMPILER_JAVA_HOME = new File(
-      "/Library/Java/JavaVirtualMachines/jdk-11.0.20.1+1/Contents/Home");
+  private static final Path COMPILER_JAVA_HOME = new File(
+      "/Library/Java/JavaVirtualMachines/jdk-11.0.20.1+1/Contents/Home").toPath();
 
   private static final CompletableFuture<FileSystem> JRT_FS = newCompilerJrtFS();
 
@@ -38,7 +39,11 @@ public class JavaHomeLocator {
     }
   }
 
-  public static File getCompilerJavaHome() {
+  public static Path getCompilerJavaHome() {
     return COMPILER_JAVA_HOME;
+  }
+
+  public static Path getCtSymPath() {
+    return getCompilerJavaHome().resolve("lib").resolve("ct.sym");
   }
 }
