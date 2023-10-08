@@ -75,4 +75,12 @@
             </plugin>
         </plugins>
     </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.kohlschutter</groupId>
+            <artifactId>kohlschutter-test-util</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 </project>
