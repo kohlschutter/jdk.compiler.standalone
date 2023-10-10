@@ -41,6 +41,7 @@ Specifically, this is allows you to:
 - target Java 1.7 for compilation without any warnings or restrictions.
 - use the Compiler Tree API without resorting to `--add-opens` trickery that may eventually fail
   in newer Java releases
+- build a modified compiler with additional features or custom tweaks
 
 ### Examples
 
@@ -119,16 +120,15 @@ JDK home artifact.
 
 ### Future enhancements
 
-Next up is adding support for the compiler in Java 21.
-
-With a little bit of luck, we may be able to modify the compiler code enough so we can actually run
+- Next up is adding support for the compiler in Java 21.
+- With a little bit of luck, we may be able to modify the compiler code enough so we can actually run
 it from Java 11.
+- We could even support multiple different compiler versions to run side-by-side in the same VM.
+- By adding support for GraalVM native image, we could build `javac` binaries with custom
+configurations
+- This approach may be used for other jdk-internal components as well.
 
-We could even support multiple different compiler versions to run side-by-side in the same VM.
-
-### Similar projects
-
-This approach may be used for other jdk-internal components as well. If you have an idea, please reach out!
+If you have an idea, please reach out!
 
 ## Who
 
