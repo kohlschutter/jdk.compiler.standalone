@@ -124,6 +124,8 @@ Next up is adding support for the compiler in Java 21.
 With a little bit of luck, we may be able to modify the compiler code enough so we can actually run
 it from Java 11.
 
+We could even support multiple different compiler versions to run side-by-side in the same VM.
+
 ### Similar projects
 
 This approach may be used for other jdk-internal components as well. If you have an idea, please reach out!
