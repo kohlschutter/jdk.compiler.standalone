@@ -28,15 +28,15 @@ even when using newer Java versions.
 
 Specifically, this is allows you to:
 
-- compile code even if your Java environment isn't a full JDK
+- compile code even if your Java environment isn't a full JDK (Java JRE, for example!)
 - target Java 1.7 for compilation without any warnings or restrictions.
 - use the Compiler Tree API without resorting to `--add-opens` trickery that may eventually fail
   in newer Java releases
 
 ### Examples
 
-See this [jsweet fork](https://github.com/kohlschutter/jsweet), where we make exhaustive use of
-the Compiler Tree API.
+See this [jsweet fork](https://github.com/kohlschutter/jsweet). jsweet makes exhaustive use of
+the Compiler Tree API, and now we can run it in Java 17 without prying open some JDK internals. 
 
 ## How
 
@@ -59,9 +59,10 @@ If your project is modularized, also add the following statements to your `modul
   requires com.kohlschutter.jdk.standaloneutil;
 ```
 
-This gives you access to all `com.sun.tools.*` and `com.sun.source.*` packages.
+This gives you access to all `com.sun.tools.*` and `com.sun.source.*` packages, however they are
+actually prefixed by `standalone.`, i.e., `standalone.com.sun.tools.*`, etc.
 
-Then change your code to use `standalone.com.sun.`... instead of `com.sun.`..., for example
+So you need tohange your code to use `standalone.com.sun.`... instead of `com.sun.`.... For example
 use `standalone.com.sun.tools.javac.api.JavacTool` instead of `com.sun.tools.javac.api.JavacTool`.
 
 If you use `javax.tools.ToolProvider.getSystemJavaCompiler()`, use our own version of it instead:
