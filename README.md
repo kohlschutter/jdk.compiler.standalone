@@ -1,25 +1,34 @@
-# Standalone jdk.compiler
+# Standalone jdk.compiler / Java Compiler Framework + Tree API
 
 ## What
 
-This repository builds standalone jdk.compiler artifacts that can be used just
-like other regular Maven dependencies.
+This repository builds standalone `jdk.compiler` artifacts (the Java code behind `javac`, etc.)
+that can be used just like other regular Maven dependencies.
 
 ## Why
 
 ### Motivation
 
-A typical way of using the Java Compiler API is to rely on the presence of such
-API in the Java VM that runs the code requiring it.
+A typical way of using the Java Compiler API is to rely on the presence of such API in the Java VM
+that runs the code requiring it.
 
-Starting with Java 16, using the Java Compiler API requires a series of
-`--add-opens` incantations to the running VM. The reason is clear: Eventually,
-we cannot rely on the presence of said API in the JDK, since it is an internal
-component that we really shouldn't touch.
+Starting with Java 16, using the internals of the Java Compiler API requires a series of
+`--add-opens` incantations to the running VM, such as:
 
-Since the Compiler API is licensed as GPLv2+Classpath-Exception, let's make it
+```
+--add-opens=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED
+--add-opens=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED
+--add-opens=jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED
+--add-opens=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED
+```
+etc.
+
+The reason is clear: Eventually, we cannot rely on the presence of said API in the JDK, since
+`jdk.compiler` is an internal module that we really shouldn't touch.
+
+Since the Compiler Framework code is licensed as GPLv2+Classpath-Exception, let's make it
 a separate component that we can use regardless of what's available in the
-current VM.
+current VM!
 
 ### Benefits
 
@@ -62,12 +71,17 @@ If your project is modularized, also add the following statements to your `modul
 This gives you access to all `com.sun.tools.*` and `com.sun.source.*` packages, however they are
 actually prefixed by `standalone.`, i.e., `standalone.com.sun.tools.*`, etc.
 
-So you need tohange your code to use `standalone.com.sun.`... instead of `com.sun.`.... For example
-use `standalone.com.sun.tools.javac.api.JavacTool` instead of `com.sun.tools.javac.api.JavacTool`.
+So you need to change your code to use `standalone.com.sun.`... instead of `com.sun.`...
+For example use `standalone.com.sun.tools.javac.api.JavacTool` instead of
+`com.sun.tools.javac.api.JavacTool`.
 
-If you use `javax.tools.ToolProvider.getSystemJavaCompiler()`, use our own version of it instead:
-`com.kohlschutter.jdk.standaloneutil.ToolProvider.getSystemJavaCompiler()` (or just change the
+If you use `javax.tools.ToolProvider.getSystemJavaCompiler()`, change this to our own version:
+`com.kohlschutter.jdk.standaloneutil.ToolProvider.getSystemJavaCompiler()` (or just modify the
 `import` statement).
+
+The original Compiler framework refers to certain files from the JDK's home directory, specifically
+`lib/modules` (which contains all default `modules`), as well as `lib/ct.sym`, which contains the
+API fingerprints to support `-release` compatibility checks.
 
 The standalone compiler uses its own copies for both `lib/modules` contents as well as `lib/ct.sym`
 from a recent JDK 11 java home directory, which is automatically included via the
@@ -76,15 +90,49 @@ from a recent JDK 11 java home directory, which is automatically included via th
 ### Project setup and structure
 
 The code in this repository relies on copies of the "jdk.compiler" code
-obtained from Java JDKs. That code is in a separate repository, and added as
-submodules to this project.
+obtained from Open Source Java JDKs (for example, Eclipse Temurin).
+
+These copies reside in a separate repository and are added as submodules to this project.
 
 Each submodule refers to a different JDK version, which allows the creation of
 multiple Maven artifacts, one for each major JDK version.
 
+### Limitations
+
+To use this artifact, you currently need Java 11 or better.
+
+### Building from source
+
+Clone this repository, initialize submodules and build:
+
+```
+git clone https://github.com/kohlschutter/jdk.compiler.standalone.git
+cd jdk.compiler.standalone.git
+git submodule update --init
+mvn clean install
+```
+
+Also see [jdk.compiler.home](https://github.com/kohlschutter/jdk.compiler.home) for the corresponding
+JDK home artifact.
+
+## When
+
+### Future enhancements
+
+Next up is adding support for the compiler in Java 21.
+
+With a little bit of luck, we may be able to modify the compiler code enough so we can actually run
+it from Java 11.
+
+### Similar projects
+
+This approach may be used for other jdk-internal components as well. If you have an idea, please reach out!
+
 ## Who
 
-This repository has been packaged by Christian Kohlschütter.
+This repository has been put together by Christian Kohlschütter.
+
+### License
 
 The code itself carries the original license, GNU General Public License
 version 2 only, subject to the "Classpath" exception as provided in
