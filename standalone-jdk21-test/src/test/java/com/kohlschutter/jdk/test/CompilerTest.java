@@ -95,4 +95,38 @@ public class CompilerTest {
       Files.delete(tmpDir);
     }
   }
+
+  @Test
+  public void testCompileJava17Sealed() throws Exception {
+    Path tmpDir = Files.createTempDirectory("standaloneJavacTest");
+    Path helloJava = tmpDir.resolve("Test.java");
+    Path helloClass = tmpDir.resolve("Test.class");
+    try {
+      try (PrintWriter pw = new PrintWriter(new FileOutputStream(helloJava.toFile()), true,
+          StandardCharsets.UTF_8)) {
+        pw.println("public class Test {");
+        pw.println("  public sealed class Hello permits World {");
+        pw.println("  }");
+        pw.println("  public final class World extends Hello {");
+        pw.println("  }");
+        pw.println("}");
+      }
+
+      System.out.println(tmpDir);
+
+      int rc = standalone.com.sun.tools.javac.Main.compile(new String[] {
+          "-source", "17", //
+          "-target", "17", //
+          helloJava.toAbsolutePath().toString()});
+      assertEquals(0, rc);
+
+      assertTrue(Files.exists(helloClass));
+    } finally {
+      Files.deleteIfExists(helloClass);
+      Files.deleteIfExists(helloJava);
+      Files.deleteIfExists(tmpDir.resolve("Test$Hello.class"));
+      Files.deleteIfExists(tmpDir.resolve("Test$World.class"));
+      Files.delete(tmpDir);
+    }
+  }
 }

@@ -21,7 +21,7 @@
     </licenses>
 
     <properties>
-        <maven.compiler.release>16</maven.compiler.release>
+        <maven.compiler.release>14</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
         <file.encoding>UTF-8</file.encoding>
@@ -97,6 +97,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <executions>
                     <execution>
+                        <?m2e ignore?>
                         <id>java18-compile</id>
                         <goals>
                             <goal>compile</goal>
@@ -104,12 +105,28 @@
                         <configuration>
                             <outputDirectory>
                                 ${project.build.outputDirectory}/META-INF/versions/18</outputDirectory>
-                            <target>18</target>
                             <release>18</release>
                             <multiReleaseOutput>false</multiReleaseOutput>
                             <compileSourceRoots>
                                 <compileSourceRoot>
                                     ${project.basedir}/src/main/java18</compileSourceRoot>
+                            </compileSourceRoots>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <?m2e ignore?>
+                        <id>java15-compile</id>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>
+                                ${project.build.outputDirectory}/META-INF/versions/15</outputDirectory>
+                            <release>18</release>
+                            <multiReleaseOutput>false</multiReleaseOutput>
+                            <compileSourceRoots>
+                                <compileSourceRoot>
+                                    ${project.basedir}/src/main/java15</compileSourceRoot>
                             </compileSourceRoots>
                         </configuration>
                     </execution>
