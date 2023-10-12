@@ -52,7 +52,8 @@
     <modules>
         <module>standalone-util</module>
         <module>standalone-jdk11</module>
+        <module>standalone-jdk11-test</module>
         <module>standalone-jdk21</module>
-        <module>standalone-test</module>
+        <module>standalone-jdk21-test</module>
     </modules>
 </project>
