@@ -53,13 +53,25 @@ the Compiler Tree API, and now we can run it in Java 17 without prying open some
 
 ### Usage
 
-First, add the following Maven dependency to your project:
+First, add one of the following Maven dependencies (but not both) to your project:
+
+For the Java 11 compiler:
 
 ```xml
     <dependency>
         <groupId>com.kohlschutter.jdk.compiler</groupId>
         <artifactId>standalone-jdk11</artifactId>
-        <version>1.0.0</version>
+        <version>1.1.0</version>
+    </dependency>
+```
+
+For the Java 21 compiler (which also runs on Java 11 or newer):
+
+```xml
+    <dependency>
+        <groupId>com.kohlschutter.jdk.compiler</groupId>
+        <artifactId>standalone-jdk11</artifactId>
+        <version>1.1.0</version>
     </dependency>
 ```
 
