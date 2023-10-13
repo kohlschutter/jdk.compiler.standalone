@@ -65,7 +65,7 @@ For the Java 11 compiler:
     </dependency>
 ```
 
-For the Java 21 compiler (which also runs on Java 11 or newer):
+For the Java 21 compiler (which runs on Java 11 or newer, even with JRE-only):
 
 ```xml
     <dependency>
@@ -149,7 +149,7 @@ An executable jar with all dependencies is built automatically, and placed in
 `standalone-jdk11/target/standalone-jdk11-VERSION-javac` (for JDK11) and
 `standalone-jdk21/target/standalone-jdk21-VERSION-javac` (for JDK21).
 
-### Compiling with itself
+### Compiling itself
 
 #### Using native-image
 Obtain the GraalVM native-image from the step above and copy it to an external path, e.g.
@@ -195,14 +195,14 @@ If you have an idea, please reach out!
 
 ### Changelog
 
-#### _(2023-10-13)_ jdk.compiler.home 1.1.0
+#### _(2023-10-13)_ jdk.compiler.standalone 1.1.0
 
 - Add the compiler from JDK21, and backport it to Java 11 (!).
 - Add GraalVM native-image support.
 - Add self-contained jar-with-dependencies for both JDK11 and JDK21.
 - Various fixes. The standalone compiler can now compile itself.
 
-#### _(2023-10-10)_ jdk.compiler.home 1.0.0
+#### _(2023-10-10)_ jdk.compiler.standalone 1.0.0
 
 - Initial release.
 
