@@ -2,13 +2,13 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    
+
     <parent>
         <groupId>com.kohlschutter</groupId>
         <artifactId>kohlschutter-parent</artifactId>
         <version>1.6.4</version>
     </parent>
-    
+
     <groupId>com.kohlschutter.jdk.compiler</groupId>
     <artifactId>standalone</artifactId>
     <version>1.0.0</version>
@@ -24,8 +24,10 @@
 
     <scm>
         <url>https://github.com/kohlschutter/jdk.compiler.standalone</url>
-        <connection>scm:git:git@github.com:kohlschutter/jdk.compiler.standalone.git</connection>
-        <developerConnection>scm:git:git@github.com:kohlschutter/jdk.compiler.standalone.git</developerConnection>
+        <connection>
+            scm:git:git@github.com:kohlschutter/jdk.compiler.standalone.git</connection>
+        <developerConnection>
+            scm:git:git@github.com:kohlschutter/jdk.compiler.standalone.git</developerConnection>
     </scm>
     <distributionManagement>
         <snapshotRepository>
@@ -49,6 +51,54 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>native</id>
+            <activation>
+                <property>
+                    <name>native</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.graalvm.buildtools</groupId>
+                        <artifactId>native-maven-plugin</artifactId>
+                        <extensions>true</extensions>
+                    </plugin>
+                </plugins>
+
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.graalvm.buildtools</groupId>
+                            <artifactId>native-maven-plugin</artifactId>
+                            <version>0.9.27</version>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+        <profile>
+            <id>custom-javac</id>
+            <activation>
+                <property>
+                    <name>custom-javac</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <configuration>
+                            <fork>true</fork>
+                            <executable>${custom-javac}</executable>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
     <modules>
         <module>standalone-util</module>
         <module>standalone-jdk11</module>
