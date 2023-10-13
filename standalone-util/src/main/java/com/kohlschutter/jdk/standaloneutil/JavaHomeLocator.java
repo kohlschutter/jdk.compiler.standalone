@@ -38,6 +38,10 @@ public class JavaHomeLocator {
     }
   }
 
+  public static Path getPathToModules() {
+    return getCompilerJavaHome().resolve("modules");
+  }
+
   public static Path getCompilerJavaHome() {
     return COMPILER_JAVA_HOME;
   }
