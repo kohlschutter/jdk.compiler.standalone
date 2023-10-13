@@ -113,26 +113,96 @@ git submodule update --init
 mvn clean install
 ```
 
-Also see [jdk.compiler.home](https://github.com/kohlschutter/jdk.compiler.home) for the corresponding
-JDK home artifact.
+Also see [jdk.compiler.home](https://github.com/kohlschutter/jdk.compiler.home) for the
+corresponding JDK home artifact.
+
+### Jar with dependencies
+
+An executable jar with all dependencies is built automatically, and placed in
+`standalone-jdk11/target/standalone-jdk11-VERSION-jar-with-dependencies.jar` (for JDK11) and
+`standalone-jdk21/target/standalone-jdk21-VERSION-jar-with-dependencies.jar` (for JDK21).
+
+### GraalVM native image
+
+Executable [GraalVM native images](https://www.graalvm.org/22.0/reference-manual/native-image/)
+are built with `-Dnative` enabled (this expects `GRAALVM_HOME` to be set to the home directory of
+a recent GraalVM SDK):
+
+```
+mvn clean install -Dnative
+```
+
+An executable jar with all dependencies is built automatically, and placed in
+`standalone-jdk11/target/standalone-jdk11-VERSION-javac` (for JDK11) and
+`standalone-jdk21/target/standalone-jdk21-VERSION-javac` (for JDK21).
+
+### Compiling with itself
+
+#### Using native-image
+Obtain the GraalVM native-image from the step above and copy it to an external path, e.g.
+`$HOME/standalone-jdk21-javac`. If you want to compile everything, you need the `jdk21` version,
+otherwise `jdk11` works as well.
+
+All you then need is to specify the path to this binary when building the project:
+
+```
+mvn clean install -Dcustom-javac=$HOME/standalone-jdk21-javac
+```
+
+#### Using jar-with-dependencies
+
+You can also use the regular jar-with-dependencies jars, but then you need to write a little
+wrapper script that can be executed by Maven:
+
+```
+#!/bin/sh
+
+/path/to/some/java-home-directory/bin/java -jar $HOME/standalone-jdk21-jar-with-dependencies.jar $@
+``` 
+
+Save the script to an external place like `$HOME/standalone-jdk21-javac-jar-with-dependencies`
+and build the project:
+
+```
+mvn clean install -Dcustom-javac=$HOME/standalone-jdk21-javac-jar-with-dependencies
+```
+
+You can experiment with using different Java JDKs/JREs to host the compiler. Anything Java 11 or
+newer should work.
 
 ## When
 
 ### Future enhancements
 
-- Next up is adding support for the compiler in Java 21.
-- With a little bit of luck, we may be able to modify the compiler code enough so we can actually run
-it from Java 11.
-- We could even support multiple different compiler versions to run side-by-side in the same VM.
-- By adding support for GraalVM native image, we could build `javac` binaries with custom
-configurations
+- We could support multiple different compiler versions to run side-by-side in the same VM.
+- We could build `javac` binaries (via GraalVM native-image) with custom configurations
 - This approach may be used for other jdk-internal components as well.
 
 If you have an idea, please reach out!
 
+## When (Changelog)
+
+### _(2023-10-13)_ jdk.compiler.home 1.1.0
+
+- Add the compiler from JDK21, and backport it to Java 11 (!).
+- Add GraalVM native-image support.
+- Add self-contained jar-with-dependencies for both JDK11 and JDK21.
+- Various fixes. The standalone compiler can now compile itself.
+
+### _(2023-10-10)_ jdk.compiler.home 1.0.0
+
+- Initial release.
+
 ## Who
 
-This repository has been put together by Christian Kohlschütter.
+This repository has been put together by [Christian Kohlschütter](https://kohlschuetter.github.io/blog/).
+
+### Getting involved
+
+If you encounter a bug, please file a [bug report](https://github.com/kohlschutter/jdk.compiler.standalone/issues).
+
+If you want to contribute, please open a [pull request](https://github.com/kohlschutter/jdk.compiler.standalone/pulls)
+or reach out directly.
 
 ### License
 
