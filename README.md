@@ -61,7 +61,7 @@ For the Java 11 compiler:
     <dependency>
         <groupId>com.kohlschutter.jdk.compiler</groupId>
         <artifactId>standalone-jdk11</artifactId>
-        <version>1.1.0</version>
+        <version>1.1.1</version>
     </dependency>
 ```
 
@@ -71,7 +71,7 @@ For the Java 21 compiler (which runs on Java 11 or newer, even with JRE-only):
     <dependency>
         <groupId>com.kohlschutter.jdk.compiler</groupId>
         <artifactId>standalone-jdk11</artifactId>
-        <version>1.1.0</version>
+        <version>1.1.1</version>
     </dependency>
 ```
 
@@ -194,6 +194,10 @@ newer should work.
 If you have an idea, please reach out!
 
 ### Changelog
+
+#### _(2023-10-14)_ jdk.compiler.standalone 1.1.1
+
+- Open all exported packages
 
 #### _(2023-10-13)_ jdk.compiler.standalone 1.1.0
 
