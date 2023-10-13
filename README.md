@@ -193,16 +193,16 @@ newer should work.
 
 If you have an idea, please reach out!
 
-## When (Changelog)
+### Changelog
 
-### _(2023-10-13)_ jdk.compiler.home 1.1.0
+#### _(2023-10-13)_ jdk.compiler.home 1.1.0
 
 - Add the compiler from JDK21, and backport it to Java 11 (!).
 - Add GraalVM native-image support.
 - Add self-contained jar-with-dependencies for both JDK11 and JDK21.
 - Various fixes. The standalone compiler can now compile itself.
 
-### _(2023-10-10)_ jdk.compiler.home 1.0.0
+#### _(2023-10-10)_ jdk.compiler.home 1.0.0
 
 - Initial release.
 
