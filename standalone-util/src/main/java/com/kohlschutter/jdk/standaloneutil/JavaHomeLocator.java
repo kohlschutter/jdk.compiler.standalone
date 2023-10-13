@@ -3,40 +3,18 @@ package com.kohlschutter.jdk.standaloneutil;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystemNotFoundException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.Collections;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Provides the path for "java.home", as far as the compiler is concerned.
  */
 public class JavaHomeLocator {
   private static final Path COMPILER_JAVA_HOME = pathForResourceURL();
-
-  private static final CompletableFuture<FileSystem> JRT_FS = newCompilerJrtFS();
-
-  private static CompletableFuture<FileSystem> newCompilerJrtFS() {
-    CompletableFuture<FileSystem> fs = new CompletableFuture<FileSystem>();
-    try {
-      fs.complete(FileSystems.newFileSystem(URI.create("jrt:/"), Collections.singletonMap(
-          "java.home", getCompilerJavaHome().toString())));
-    } catch (IOException e) {
-      fs.completeExceptionally(e);
-    }
-    return fs;
-  }
-
-  public static FileSystem getCompilerJrtFS() {
-    try {
-      return JRT_FS.get();
-    } catch (InterruptedException | ExecutionException e) {
-      throw (FileSystemNotFoundException) new FileSystemNotFoundException().initCause(e);
-    }
-  }
 
   public static Path getPathToModules() {
     return getCompilerJavaHome().resolve("modules");
@@ -59,17 +37,21 @@ public class JavaHomeLocator {
   }
 
   private static Path pathForResourceURL(Class<?> classRef, String name) {
-    boolean parentDir = ".".equals(name);
-
-    if (parentDir || name.isEmpty()) {
-      name = classRef.getSimpleName() + ".class";
+    if (".".equals(name) || name.isEmpty()) {
+      name = "/" + classRef.getPackage().getName().replace('.', '/') + "/";
     }
 
     URI uri;
     try {
-      uri = classRef.getResource(name).toURI();
+      URL url = classRef.getResource(name);
+      if (url == null) {
+        throw new FileSystemNotFoundException("Cannot find resource " + name + " relative to "
+            + classRef);
+      }
+      uri = url.toURI();
     } catch (URISyntaxException e) {
-      throw new IllegalStateException(e);
+      throw (FileSystemNotFoundException) new FileSystemNotFoundException(e.toString()).initCause(
+          e);
     }
 
     Path p;
@@ -77,22 +59,17 @@ public class JavaHomeLocator {
       p = Path.of(uri);
     } catch (FileSystemNotFoundException e) {
       String ssp = uri.getSchemeSpecificPart();
-      int exclp = ssp.indexOf("!/");
-      if (exclp == -1) {
-        throw e;
-      }
 
       FileSystem fs;
       try {
         fs = FileSystems.newFileSystem(uri, Collections.emptyMap());
       } catch (IOException e1) {
-        throw (FileSystemNotFoundException) new FileSystemNotFoundException().initCause(e1);
+        throw (FileSystemNotFoundException) new FileSystemNotFoundException("Cannot find resource "
+            + name + " relative to " + classRef).initCause(e1);
       }
-      p = fs.getPath(ssp.substring(exclp + 1));
-    }
 
-    if (parentDir) {
-      p = p.getParent();
+      int exclp = ssp.indexOf("!/");
+      p = fs.getPath(exclp != -1 ? ssp.substring(exclp + 1) : ssp);
     }
 
     return p;
