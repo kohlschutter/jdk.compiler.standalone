@@ -1,0 +1,50 @@
+{
+    "resources": {
+        "includes": [
+            {
+                "pattern": "\\QMETA-INF/services/java.lang.System$LoggerFinder\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/services/java.nio.file.spi.FileSystemProvider\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/services/javax.annotation.processing.Processor\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/services/standalone.com.sun.tools.javac.platform.PlatformProvider\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/services/standalone.com.sun.source.util.Plugin\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/services/standalone.com.sun.tools.doclint.DocLint\\E"
+            }
+        ]
+    },
+    "bundles": [
+        {
+            "name": "standalone.com.sun.tools.javac.resources.compiler",
+            "classNames": [
+                "standalone.com.sun.tools.javac.resources.compiler"
+            ]
+        },
+        {
+            "name": "standalone.com.sun.tools.javac.resources.ct",
+            "classNames": [
+                "standalone.com.sun.tools.javac.resources.ct"
+            ]
+        },
+        {
+            "name": "standalone.com.sun.tools.javac.resources.javac",
+            "classNames": [
+                "standalone.com.sun.tools.javac.resources.javac"
+            ]
+        },
+        {
+            "name": "standalone.com.sun.tools.javac.resources.version",
+            "classNames": [
+                "standalone.com.sun.tools.javac.resources.version"
+            ]
+        }
+    ]
+}

@@ -135,6 +135,45 @@
         </plugins>
     </build>
 
+    <profiles>
+        <profile>
+            <id>native</id>
+            <activation>
+                <property>
+                    <name>native</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.graalvm.buildtools</groupId>
+                        <artifactId>native-maven-plugin</artifactId>
+                        <extensions>true</extensions>
+                        <executions>
+                            <execution>
+                                <id>build-native</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>compile-no-fork</goal>
+                                </goals>
+                                <configuration>
+                                    <mainClass>
+                                        standalone.com.sun.tools.javac.Main</mainClass>
+                                </configuration>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <skip>false</skip>
+                            <useArgFile>false</useArgFile>
+                            <imageName>${project.name}-${project.version}-javac</imageName>
+                            <fallback>false</fallback>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
     <dependencies>
         <dependency>
             <groupId>com.kohlschutter.jdk</groupId>
