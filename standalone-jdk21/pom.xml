@@ -98,6 +98,23 @@
                 <executions>
                     <execution>
                         <?m2e ignore?>
+                        <id>java21-compile</id>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>
+                                ${project.build.outputDirectory}/META-INF/versions/21</outputDirectory>
+                            <release>21</release>
+                            <multiReleaseOutput>false</multiReleaseOutput>
+                            <compileSourceRoots>
+                                <compileSourceRoot>
+                                    ${project.basedir}/src/main/java21</compileSourceRoot>
+                            </compileSourceRoots>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <?m2e ignore?>
                         <id>java18-compile</id>
                         <goals>
                             <goal>compile</goal>
@@ -115,6 +132,23 @@
                     </execution>
                     <execution>
                         <?m2e ignore?>
+                        <id>java16-compile</id>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>
+                                ${project.build.outputDirectory}/META-INF/versions/16</outputDirectory>
+                            <release>16</release>
+                            <multiReleaseOutput>false</multiReleaseOutput>
+                            <compileSourceRoots>
+                                <compileSourceRoot>
+                                    ${project.basedir}/src/main/java16</compileSourceRoot>
+                            </compileSourceRoots>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <?m2e ignore?>
                         <id>java15-compile</id>
                         <goals>
                             <goal>compile</goal>
@@ -122,12 +156,71 @@
                         <configuration>
                             <outputDirectory>
                                 ${project.build.outputDirectory}/META-INF/versions/15</outputDirectory>
-                            <release>18</release>
+                            <release>15</release>
                             <multiReleaseOutput>false</multiReleaseOutput>
                             <compileSourceRoots>
                                 <compileSourceRoot>
                                     ${project.basedir}/src/main/java15</compileSourceRoot>
                             </compileSourceRoots>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <?m2e ignore?>
+                        <id>java14-compile</id>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>
+                                ${project.build.outputDirectory}/META-INF/versions/14</outputDirectory>
+                            <release>14</release>
+                            <multiReleaseOutput>false</multiReleaseOutput>
+                            <compileSourceRoots>
+                                <compileSourceRoot>
+                                    ${project.basedir}/src/main/java14</compileSourceRoot>
+                            </compileSourceRoots>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>jar-with-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <shadedArtifactAttached>true</shadedArtifactAttached>
+                            <shadedClassifierName>jar-with-dependencies</shadedClassifierName>
+                            <transformers>
+                                <transformer
+                                    implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>
+                                        standalone.com.sun.tools.javac.Main</mainClass>
+                                </transformer>
+                                <transformer
+                                    implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+                            </transformers>
+                            <minimizeJar>false</minimizeJar>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>/logging.properties</exclude>
+                                        <exclude>META-INF/LICENSE</exclude>
+                                        <exclude>META-INF/*.md</exclude>
+                                        <exclude>META-INF/*.MF</exclude>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                        <exclude>META-INF/*.kotlin_module</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
                         </configuration>
                     </execution>
                 </executions>
