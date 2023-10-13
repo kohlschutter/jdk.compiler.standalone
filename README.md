@@ -39,6 +39,7 @@ Specifically, this is allows you to:
 
 - compile code even if your Java environment isn't a full JDK (Java JRE, for example!)
 - target Java 1.7 for compilation without any warnings or restrictions.
+- parse and compile Java 21 source code from Java 11 or newer
 - use the Compiler Tree API without resorting to `--add-opens` trickery that may eventually fail
   in newer Java releases
 - build a modified compiler with additional features or custom tweaks
