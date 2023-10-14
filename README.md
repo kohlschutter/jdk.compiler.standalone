@@ -195,6 +195,10 @@ If you have an idea, please reach out!
 
 ### Changelog
 
+#### _(2023-10-14)_ jdk.compiler.standalone 1.1.2
+
+- Fix Maven POM setup that would prevent getting the correct dependencies in other projects
+
 #### _(2023-10-14)_ jdk.compiler.standalone 1.1.1
 
 - Open all exported packages
