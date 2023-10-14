@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.kohlschutter.jdk.compiler</groupId>
         <artifactId>standalone</artifactId>
-        <version>1.1.1</version>
+        <version>1.1.2</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -180,7 +180,6 @@
         <dependency>
             <groupId>com.kohlschutter.jdk</groupId>
             <artifactId>standalone-util</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.kohlschutter.jdk</groupId>

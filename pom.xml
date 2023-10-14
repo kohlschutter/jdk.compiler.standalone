@@ -11,8 +11,12 @@
 
     <groupId>com.kohlschutter.jdk.compiler</groupId>
     <artifactId>standalone</artifactId>
-    <version>1.1.1</version>
+    <version>1.1.2</version>
     <packaging>pom</packaging>
+
+    <properties>
+        <jdk.compiler.standalone.version>1.1.2</jdk.compiler.standalone.version>
+    </properties>
 
     <licenses>
         <license>
@@ -99,6 +103,27 @@
             </build>
         </profile>
     </profiles>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.kohlschutter.jdk</groupId>
+                <artifactId>standalone-util</artifactId>
+                <version>${jdk.compiler.standalone.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kohlschutter.jdk.compiler</groupId>
+                <artifactId>standalone-jdk11</artifactId>
+                <version>${jdk.compiler.standalone.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kohlschutter.jdk.compiler</groupId>
+                <artifactId>standalone-jdk21</artifactId>
+                <version>${jdk.compiler.standalone.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <modules>
         <module>standalone-util</module>
         <module>standalone-jdk11</module>
