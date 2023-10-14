@@ -61,7 +61,7 @@ For the Java 11 compiler:
     <dependency>
         <groupId>com.kohlschutter.jdk.compiler</groupId>
         <artifactId>standalone-jdk11</artifactId>
-        <version>1.1.1</version>
+        <version>1.1.3</version>
     </dependency>
 ```
 
@@ -71,7 +71,7 @@ For the Java 21 compiler (which runs on Java 11 or newer, even with JRE-only):
     <dependency>
         <groupId>com.kohlschutter.jdk.compiler</groupId>
         <artifactId>standalone-jdk11</artifactId>
-        <version>1.1.1</version>
+        <version>1.1.3</version>
     </dependency>
 ```
 
@@ -129,9 +129,15 @@ mvn clean install
 Also see [jdk.compiler.home](https://github.com/kohlschutter/jdk.compiler.home) for the
 corresponding JDK home artifact.
 
-### Jar with dependencies
+### Executable jar with embedded dependencies
 
-An executable jar with all dependencies is built automatically, and placed in
+Executable jar files (`java -jar ...`) are built with `-Djar-with-dependencies` enabled:
+
+```
+mvn clean install -Djar-with-dependencies
+```
+
+Executable jars are then placed in
 `standalone-jdk11/target/standalone-jdk11-VERSION-jar-with-dependencies.jar` (for JDK11) and
 `standalone-jdk21/target/standalone-jdk21-VERSION-jar-with-dependencies.jar` (for JDK21).
 
@@ -145,7 +151,7 @@ a recent GraalVM SDK):
 mvn clean install -Dnative
 ```
 
-An executable jar with all dependencies is built automatically, and placed in
+Executables are then placed in
 `standalone-jdk11/target/standalone-jdk11-VERSION-javac` (for JDK11) and
 `standalone-jdk21/target/standalone-jdk21-VERSION-javac` (for JDK21).
 
@@ -194,6 +200,11 @@ newer should work.
 If you have an idea, please reach out!
 
 ### Changelog
+
+#### _(2023-10-14)_ jdk.compiler.standalone 1.1.3
+
+- Fix Maven POM setup that would prevent getting the correct dependencies in other projects, take 2
+- No longer build jar-with-dependencies by default
 
 #### _(2023-10-14)_ jdk.compiler.standalone 1.1.2
 
